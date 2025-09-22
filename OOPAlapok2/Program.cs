@@ -1,52 +1,33 @@
-﻿using System;
-using MySql.Data.MySqlClient;
+﻿using OOPDatabase.Services;
+using System;
 
-namespace OOPAlapok2
+namespace OOPDatabase
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.Write("Adja meg az adatbázis nevét: ");
-            string database = Console.ReadLine();
+            ISqlStatements sqlStatements = new TableBooks();
 
-            Console.Write("Felhasználónév: ");
-            string username = Console.ReadLine();
-
-            Console.Write("Jelszó: ");
-            string password = ReadPassword();
-
-            string connectionString = $"Server=localhost;Database={database};Uid={username};Pwd={password};";
-
-            try
+            /*Feladat1
+            foreach (var item in sqlStatements.GetAllRecords())
             {
-                using (var connection = new MySqlConnection(connectionString))
-                {
-                    connection.Open();
-                    Console.WriteLine("Sikeres csatlakozás");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Sikertelen csatlakozás: {ex.Message}");
-            }
-        }
+                var book = item.GetType().GetProperties();
+                Console.WriteLine($"{book[0].Name} = {book[0].GetValue(item)}, {book[1].Name} = {book[1].GetValue(item)}");
+            }*/
 
-        // Secure password input (does not show password on console)
-        static string ReadPassword()
-        {
-            string password = "";
-            ConsoleKeyInfo info;
-            do
-            {
-                info = Console.ReadKey(true);
-                if (info.Key != ConsoleKey.Enter)
-                {
-                    password += info.KeyChar;
-                }
-            } while (info.Key != ConsoleKey.Enter);
-            Console.WriteLine();
-            return password;
+            //Feladat2
+            Console.Write("Kérem a rejord id-t: ");
+
+            var item = sqlStatements.GetById(int.Parse(Console.ReadLine()));
+
+            var book = item.GetType().GetProperties();
+
+            Console.WriteLine($"{book[1].Name} = {book[1].GetValue(item)}");
+
+
+
+
         }
     }
 }

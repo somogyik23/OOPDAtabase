@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace OOPAlapok2.Services
+namespace OOPDatabase.Services
 {
     internal interface ISqlStatements
     {
         List<object> GetAllBooks();
+        object GetById(int id);
     }
 }
