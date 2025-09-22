@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
 
 namespace OOPAlapok2
 {
@@ -12,20 +8,29 @@ namespace OOPAlapok2
         private string Host;
         private string database;
         private string user;
-        private string Password;    
-    
+        private string Password;
+        private string ConnectionString;
+        private MySqlConnection connectionString;
 
-    public Connect(string database, string user, string password)
+        public Connect(string database, string user, string password)
         {
             this.Host = "localhost";
             this.database = database;
-            this.user = user;
-            this.Password = password;
+            this.user = "root";
+            this.Password = "";
 
-            ConnectionString = $"Server={_host};Database={database};Uid={user};Pwd={password};";
+            ConnectionString = $"Server={Host};Database={database};Uid={user};Pwd={password};SslMode=None";
+            connectionString = new MySqlConnection(ConnectionString);
 
-            connectionStirng = new MySqlConnection(ConnectionString);
-      
+            try
+            {
+                connectionString.Open();
+                Console.WriteLine("Sikeres csatlakozás");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Sikertelen csatlakozás: {ex.Message}");
+            }
         }
     }
 }
